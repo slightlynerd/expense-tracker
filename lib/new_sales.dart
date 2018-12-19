@@ -48,7 +48,9 @@ class _NewSalesState extends State<NewSales> {
                 autofocus: true,
                 keyboardType: TextInputType.numberWithOptions(),
                 decoration: const InputDecoration(
-                    icon: Icon(Icons.attach_money), labelText: 'Enter Amount'),
+                  icon: Icon(Icons.attach_money), 
+                  labelText: 'Enter Amount',
+                ),
                 controller: myController,
                 validator: (value) {
                   if (value.isEmpty) {
@@ -56,33 +58,23 @@ class _NewSalesState extends State<NewSales> {
                   }
                 },
               ),
-              // TextFormField(
-              //   decoration: const InputDecoration(
-              //       icon: Icon(Icons.comment), labelText: 'Enter Description'),
-              //   validator: (value) {
-              //     if (value.isEmpty) {
-              //       return 'Please enter a description';
-              //     }
-              //   },
-              // ),
               Row(
                 children: [
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: RaisedButton(
-                        color: Color(0xFF212121),
+                        color: Color(0xFF03DAC5),
                         onPressed: () {
                           _addSales(myController.text);
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MyHomePage()),
+                            MaterialPageRoute(
+                                builder: (context) => MyHomePage()),
                           );
-
                         },
                         child: Icon(
                           Icons.arrow_forward,
-                          color: Color(0xFFFFFFFFF),
                         ),
                       ),
                     ),

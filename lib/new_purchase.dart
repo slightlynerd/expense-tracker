@@ -52,22 +52,13 @@ class _NewPurchaseState extends State<NewPurchase> {
                   }
                 },
               ),
-              // TextFormField(
-              //   decoration: const InputDecoration(
-              //       icon: Icon(Icons.comment), labelText: 'Enter Description'),
-              //   validator: (value) {
-              //     if (value.isEmpty) {
-              //       return 'Please enter a description';
-              //     }
-              //   },
-              // ),
               Row(
                 children: [
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: RaisedButton(
-                        color: Color(0xFF212121),
+                        color: Color(0xFF03DAC5),
                         onPressed: () {
                           _addPurchases(myController.text);
                           Navigator.push(
@@ -78,7 +69,6 @@ class _NewPurchaseState extends State<NewPurchase> {
                         },
                         child: Icon(
                           Icons.arrow_forward,
-                          color: Color(0xFFFFFFFFF),
                         ),
                       ),
                     ),

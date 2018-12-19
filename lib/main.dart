@@ -11,8 +11,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: Color(0xFF212121),
-        accentColor: Color(0xFF212121),
+        primaryColor: Color(0xFFFFDE03),
+        accentColor: Color(0xFF0336FF),
+        scaffoldBackgroundColor: Color(0xFFFFDE03),
       ),
       home: MyHomePage(title: 'Expense Tracker'),
     );
@@ -29,7 +30,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   double _totalSales = 0.0;
   double _totalIncome = 0.0;
@@ -41,6 +41,22 @@ class _MyHomePageState extends State<MyHomePage> {
     final SharedPreferences prefs = await _prefs;
     List<String> incomes = prefs.getStringList(category);
     return incomes;
+  }
+
+  updateUI(String str, double num) {
+    setState(() {
+      if (str == 'income') {
+        _totalSales = num;
+      }
+      else if (str == 'purchases') {
+        _totalPurchases = num;
+      }
+      else {
+        _totalOtherIncomes = num;
+      }
+      _totalIncome = _totalSales + _totalOtherIncomes;
+      _balance = _totalIncome - _totalPurchases;
+    });
   }
 
   _initialize() {
@@ -59,9 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
       inc.forEach((f) {
         totalIncome += double.parse(f);
       });
-      _totalSales = totalIncome;
-    })
-    .catchError((error) => print(error));
+      updateUI('income', totalIncome);
+    }).catchError((error) => print(error));
 
     otherIncome.then((oi) {
       if (oi == null) {
@@ -70,10 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
       oi.forEach((o) {
         totalOtherIncome += double.parse(o);
       });
-      _totalOtherIncomes = totalOtherIncome;
-      _totalIncome = _totalSales + _totalOtherIncomes;
-    })
-    .catchError((error) => print(error));
+      updateUI('other income', totalOtherIncome);
+    }).catchError((error) => print(error));
 
     purchases.then((oi) {
       if (oi == null) {
@@ -82,20 +95,17 @@ class _MyHomePageState extends State<MyHomePage> {
       oi.forEach((o) {
         totalPurchases += double.parse(o);
       });
-      _totalPurchases = totalPurchases;
-      _balance = (totalIncome + totalOtherIncome) - totalPurchases;
-    })
-    .catchError((error) => print(error));
+      updateUI('purchases', totalPurchases);
+    }).catchError((error) => print(error));
   }
 
   @override
   Widget build(BuildContext context) {
-
     _initialize();
 
     Widget nav() {
-
       return Container(
+        color: const Color(0xFFFFDE03),
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
@@ -111,8 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           Text(
                             'Dec',
                             style: TextStyle(
+                              color: Color(0xFF000000),
                               fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           Icon(
@@ -124,14 +134,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   Column(
+                    children: [
+                      Text(
+                        'Expense Tracker',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                        )
+                      )
+                    ],
+                  ),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         '01 Dec, 2018',
                         style: TextStyle(
                           fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
+                          color: Color(0xFF000000),
                         ),
                       ),
                     ],
@@ -156,16 +176,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Income',
-                        style: TextStyle(
-                          fontSize: 16.0,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          'Income',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Text(
-                        _totalIncome.toString(),
+                        '$_totalIncome',
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 16.0,
                         ),
                       ),
                     ],
@@ -178,16 +202,20 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: 48.0,
                         height: 48.0,
                       ),
-                      Text(
-                        'Balance',
-                        style: TextStyle(
-                          fontSize: 16.0,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          'Balance',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Text(
-                        _balance.toString(),
+                        '$_balance',
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 16.0,
                         ),
                       ),
                     ],
@@ -195,16 +223,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Expenses',
-                        style: TextStyle(
-                          fontSize: 16.0
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          'Expenses',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Text(
-                        _totalPurchases.toString(),
+                        '$_totalPurchases',
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 16.0,
                         ),
                       ),
                     ],
@@ -218,12 +250,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     Column buildCards(IconData icon, String title, String amount) {
-
       return Column(
         children: [
           Card(
             elevation: 2.0,
-            margin: EdgeInsets.all(4.0),
+            margin: EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Column(
@@ -248,7 +279,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 Row(
-
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,16 +288,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Text(
                             title,
                             style: TextStyle(
-                              color: Color(0xFF212121),
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              height: 2.0,
-                              textBaseline: TextBaseline.alphabetic
-                            ),
+                                color: Color(0xFF212121),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                                height: 2.0,
+                                textBaseline: TextBaseline.alphabetic),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, bottom: 8.0),
                           child: Text(
                             amount,
                             style: TextStyle(
@@ -293,8 +323,10 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Column(
         children: [
           buildCards(Icons.more_vert, 'SALES', _totalSales.toString()),
-          buildCards(Icons.shopping_cart, 'PURCHASE', _totalPurchases.toString()),
-          buildCards(Icons.attach_money, 'OTHER INCOMES', _totalOtherIncomes.toString()),
+          buildCards(
+              Icons.shopping_cart, 'PURCHASE', _totalPurchases.toString()),
+          buildCards(Icons.attach_money, 'OTHER INCOMES',
+              _totalOtherIncomes.toString()),
         ],
       ),
     );
