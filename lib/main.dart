@@ -105,7 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     Widget nav() {
       return Container(
-        color: const Color(0xFFFFDE03),
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [

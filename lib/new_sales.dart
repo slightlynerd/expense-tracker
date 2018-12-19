@@ -66,12 +66,14 @@ class _NewSalesState extends State<NewSales> {
                       child: RaisedButton(
                         color: Color(0xFF03DAC5),
                         onPressed: () {
-                          _addSales(myController.text);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyHomePage()),
-                          );
+                          if(_formKey.currentState.validate()){
+                            _addSales(myController.text);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyHomePage()),
+                            );
+                          }
                         },
                         child: Icon(
                           Icons.arrow_forward,
