@@ -64,7 +64,7 @@ class _NewSalesState extends State<NewSales> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: RaisedButton(
-                        color: Color(0xFF03DAC5),
+                        color: Color(0xFF0336FF),
                         onPressed: () {
                           if(_formKey.currentState.validate()){
                             _addSales(myController.text);
@@ -77,6 +77,7 @@ class _NewSalesState extends State<NewSales> {
                         },
                         child: Icon(
                           Icons.arrow_forward,
+                          color: Colors.white,
                         ),
                       ),
                     ),

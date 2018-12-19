@@ -13,6 +13,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFFFFDE03),
         accentColor: Color(0xFF0336FF),
+        backgroundColor: Color(0xFF0336FF),
+        cardColor: Color(0xFFFCFCFC),
+        inputDecorationTheme: InputDecorationTheme(
+          fillColor: Color(0xFF0336FF),
+        ),
         scaffoldBackgroundColor: Color(0xFFFFDE03),
       ),
       home: MyHomePage(title: 'Expense Tracker'),

@@ -63,7 +63,7 @@ class _NewOtherIncomeState extends State<NewOtherIncome> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: RaisedButton(
-                        color: Color(0xFF03DAC5),
+                        color: Color(0xFF0336FF),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             _addOtherIncome(myController.text);
@@ -75,6 +75,7 @@ class _NewOtherIncomeState extends State<NewOtherIncome> {
                         },
                         child: Icon(
                           Icons.arrow_forward,
+                          color: Colors.white,
                         ),
                       ),
                     ),
